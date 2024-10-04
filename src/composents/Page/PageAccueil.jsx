@@ -19,11 +19,14 @@ const PageAccueil = () => {
           </p>
         </section>
         <section className="feature">
-          <h2 className="feature-title">Exercices Pratiques</h2>
-          <p className="feature-description">
-            Entraînez-vous avec des scénarios réalistes pour mettre en pratique vos compétences Git.
-          </p>
-        </section>
+            <h2 className="feature-title">
+                <Link to="/exercices-pratiques" className="link">Exercices Pratiques</Link>
+            </h2>
+            <p className="feature-description">
+                Entraînez-vous avec des scénarios réalistes pour mettre en pratique vos compétences Git.
+            </p>
+            </section>
+
         <section className="feature">
           <h2 className="feature-title">Importation de Projets Git</h2>
           <p className="feature-description">
