@@ -1,0 +1,91 @@
+.exercices-pratiques {
+  padding: 20px;
+  background-color: var(--primary-color);
+  border-radius: 8px;
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.simulation {
+  width: 30%;
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.step {
+  margin: 10px 0;
+}
+
+.terminal {
+  width: 65%;
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  padding: 10px;
+  border-radius: 4px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+input {
+  width: calc(100% - 80px);
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  color: var(--text-color);
+  background-color: var(--primary-color);
+}
+
+button {
+  padding: 10px 20px;
+  background-color: var(--secondary-color);
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.log {
+  margin-top: 10px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.command {
+  color: #58a6ff; /* Couleur des commandes */
+}
+
+.output {
+  color: #c9d1d9; /* Couleur des sorties */
+}
+
+.command-count {
+  margin-top: 10px;
+}
+
+.success {
+  color: #28a745; /* Vert pour le succès */
+  margin-top: 10px;
+}
+
+.error {
+  color: #dc3545; /* Rouge pour l'erreur */
+  margin-top: 10px;
+}
+
+.git-log {
+  background-color: #161b22; /* Couleur du fond du log */
+  color: #c9d1d9; /* Couleur du texte du log */
+  padding: 10px;
+  border-radius: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  font-family: 'Courier New', Courier, monospace;
+}

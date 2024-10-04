@@ -1,7 +1,7 @@
 const exercices = [
   {
     id: 1,
-    enonce: "Créez un projet Git, faites un `git add .` et un `git commit -m \"Votre message ici\"`.",
+    enonce: "Créez un projet Git, faites un `git add .` et un `git commit -m \"Mon premier commit\"`.",
     maxCommands: 3,
     commandes: [
       "git init",
