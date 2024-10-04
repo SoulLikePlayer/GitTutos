@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'; // Importer Link pour la navigation
 import '../../style/Page/PageAccueil.css';
 
 const PageAccueil = () => {
@@ -10,7 +11,9 @@ const PageAccueil = () => {
       </header>
       <main className="main-content">
         <section className="feature">
-          <h2 className="feature-title">Cours Théoriques</h2>
+          <h2 className="feature-title">
+            <Link to="/cours-theorique/Chapitre1" className="link">Cours Théoriques</Link>
+          </h2>
           <p className="feature-description">
             Explorez les bases de Git avec nos cours détaillés et adaptés à tous les niveaux.
           </p>

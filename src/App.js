@@ -1,13 +1,18 @@
-import React from "react";
-import PageAccueil from "./composents/Page/PageAccueil";
-import "./App.css";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import PageAccueil from './composents/Page/PageAccueil';
+import CoursTheorique from './composents/Page/CoursThéorique';
+import './App.css'
 
-function App() {
+const App = () => {
   return (
-    <div className="container">
-      <PageAccueil/>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<PageAccueil />} />
+        <Route path="/cours-theorique/:chapitreNumero" element={<CoursTheorique />} />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
