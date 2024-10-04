@@ -1,5 +1,6 @@
 import React from "react";
 import PageAccueil from "./composents/Page/PageAccueil";
+import "./App.css";
 
 function App() {
   return (
