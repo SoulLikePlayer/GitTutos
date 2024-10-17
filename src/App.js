@@ -6,18 +6,17 @@ import ExercicesPratiques from './composents/Page/ExercicesPratique';
 import PageCommande from './composents/Page/PageCommande';
 import Profil from './composents/Page/Profil';
 
-import './App.css'
+import './App.css';
 import Header from './composents/Page/Header';
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Auth from './composents/Page/Auth';
-
 import OtherProfil from './composents/Page/OtherProfil';
 
 const App = () => {
   return (
-    <Router>
+    // Ajout du basename correspondant au nom de ton dépôt GitHub
+    <Router basename="/GitTutos">
       <Header />
       <Routes>
         <Route path="/" element={<PageAccueil />} />
@@ -26,7 +25,7 @@ const App = () => {
         <Route path="/pageCommande/:commandeId" element={<PageCommande />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/profil" element={<Profil />} />
-        <Route path="/profil-utilisateur/:userId" element={<OtherProfil />}/>
+        <Route path="/profil-utilisateur/:userId" element={<OtherProfil />} />
       </Routes>
     </Router>
   );
