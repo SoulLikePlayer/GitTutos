@@ -1,51 +1,50 @@
-GitTutos 🌟
+# <span style="color: #4CAF50;">GitTutos 🌟</span>
 
-Bienvenue sur GitTutos, ton compagnon idéal pour apprendre à maîtriser Git comme un pro ! 🚀 Que tu sois un débutant cherchant à comprendre les bases ou un utilisateur plus avancé désireux de peaufiner ses compétences, cette application est faite pour toi.
-📍 Accéder à l'application
+Bienvenue sur **<span style="color: #4CAF50;">GitTutos</span>**, ton allié idéal pour devenir un pro de Git ! 🚀 Que tu sois un novice désireux d’apprendre les bases ou un utilisateur aguerri souhaitant peaufiner ses compétences, notre application est là pour toi.
 
-Tu peux accéder à GitTutos en te rendant : [https://soullikeplayer.github.io/GitTutos]
-🎓 À propos
+## 📍 Accéder à l'application
 
-GitTutos est une application pédagogique qui a pour mission d'aider les utilisateurs à comprendre et à utiliser Git efficacement. Voici ce que tu peux y trouver :
+Prêt à plonger dans le monde de Git ? Accède à GitTutos ici : [GitTutos](https://soullikeplayer.github.io/GitTutos) 🎉
 
-   Cours théoriques 📚 : Apprends les concepts clés de Git avec des leçons claires et concises.
-   
-   Exercices pratiques 🛠️ : Mets en pratique ce que tu as appris avec des exercices interactifs.
-   
-   Liste de commandes 📜 : Consulte des commandes Git avec des explications détaillées pour mieux les comprendre.
-   
-   Système de compte et de titres 🎖️ : Gagne de l'expérience en réalisant des exercices et débloque des titres en fonction de ton niveau !
+## 🎓 À propos de GitTutos
 
-⚙️ Technologies utilisées
+**GitTutos** est une application pédagogique conçue pour t'aider à maîtriser Git de manière ludique et interactive. Voici ce que tu y trouveras :
 
-GitTutos est construit avec les technologies suivantes :
+<ul style="list-style-type: none; padding: 0;">
+    <li><strong>📚 Cours théoriques</strong> : Des leçons claires pour comprendre les concepts essentiels de Git.</li>
+    <li><strong>🛠️ Exercices pratiques</strong> : Applique tes connaissances avec des exercices interactifs qui te mettront au défi !</li>
+    <li><strong>📜 Liste de commandes</strong> : Un guide complet des commandes Git, avec des explications simples pour chaque utilisation.</li>
+    <li><strong>🎖️ Système de compte et de titres</strong> : Gagne de l'expérience en complétant des exercices et débloque des titres en fonction de ton niveau. Plus tu apprends, plus tu es récompensé ! 🏆</li>
+</ul>
 
-  React ⚛️ : Pour une interface utilisateur réactive et dynamique.
-  
-  Supabase 🗄️ : Pour la gestion de la base de données et des utilisateurs.
+## ⚙️ Technologies utilisées
 
-🚀 Comment démarrer
+GitTutos est construit avec des technologies modernes pour offrir la meilleure expérience possible :
 
-Clone ce dépôt :
+- **React** ⚛️ : Pour une interface utilisateur dynamique et réactive.
+- **Supabase** 🗄️ : Pour la gestion des données et des utilisateurs, tout en étant super simple à utiliser.
 
-    git clone https://github.com/tonnom/GitTutos.git
+## 🚀 Comment démarrer
 
-Accède au dossier de l'application :
+Tu veux te lancer ? Voici comment faire :
 
-    cd GitTutos
+1. Clone ce dépôt :
+    <code>git clone https://github.com/tonnom/GitTutos.git</code>
+3. Accède au dossier de l'application :
+   <code>cd GitTutos</code>
+4. Installe les dépendances :
+   <code>npm install</code>
+5. Lance l'application :
+   <code>npm start</code>
 
-Installe les dépendances :
+## 📝 Contribuer
 
-    npm install
+Nous adorons les contributions ! Si tu as des idées pour améliorer GitTutos ou si tu veux signaler un bug, n’hésite pas à ouvrir une issue ou à soumettre une pull request. Ensemble, faisons de GitTutos la référence pour apprendre Git ! 🤝
 
-Démarre l'application :
+## 🎉 Remerciements
 
+Un grand merci à tous ceux qui ont contribué à ce projet et à la communauté open source. Ton soutien fait toute la différence ! 🌍
 
-    npm start
+---
 
-📝 Contribuer
-
-Les contributions sont les bienvenues ! Si tu as des idées pour améliorer GitTutos ou si tu souhaites signaler un bug, n'hésite pas à ouvrir une issue ou à soumettre une pull request. Ensemble, faisons de GitTutos l'outil ultime pour apprendre Git ! 🤝
-🎉 Remerciements
-
-Un grand merci à tous ceux qui ont contribué à ce projet et à la communauté open source ! 🌍
+**Prêt à commencer ton aventure avec Git ? Let's go!** 💪
