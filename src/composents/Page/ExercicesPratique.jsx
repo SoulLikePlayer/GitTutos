@@ -1,144 +1,297 @@
 import React, { useState, useEffect } from 'react';
-import '../../style/Page/PartieExercice.css'; // Assurez-vous d'avoir ce fichier CSS
-import exercices from '../data/Exercice'; // Assurez-vous que le chemin est correct
+import exercices from '../data/exercices';
+import '../../style/Page/PartieExercice.css';
 import Modal from '../autres/modal';
 
-const ExercicesPratiques = () => {
-  const [input, setInput] = useState('');
-  const [log, setLog] = useState([]);
-  const [commandCount, setCommandCount] = useState(0);
-  const [currentExercice, setCurrentExercice] = useState(exercices[0]);
-  const [projectCreated, setProjectCreated] = useState(false);
-  const [filesAdded, setFilesAdded] = useState(false);
-  const [commitMessage, setCommitMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const [gitLog, setGitLog] = useState([]);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [timeTaken, setTimeTaken] = useState(0);
-  
-  useEffect(() => {
-    const startTime = Date.now();
-    const timer = setInterval(() => {
-      setTimeTaken(Math.floor((Date.now() - startTime) / 1000));
-    }, 1000);
-    return () => clearInterval(timer); // Nettoyez l'intervalle à la désactivation du composant
-  }, []);
+const ExercicePratique = () => {
+    const [tentative, setTentative] = useState(0);
+    const [tentativesSubExercices, setTentativesSubExercices] = useState([]);
+    const [SubExerciceFinish, setSubExerciceFinish] = useState(false);
+    const [xp, setXp] = useState(0);
+    const [seconds, setSeconds] = useState(0);
+    const [isActive, setIsActive] = useState(false);
+    const [currentExerciceIndex, setCurrentExerciceIndex] = useState(() => {
+        return parseInt(localStorage.getItem("NumExercice")) || 0;
+    });
+    const [currentSubExerciseIndex, setCurrentSubExerciseIndex] = useState(() => {
+        return parseInt(localStorage.getItem("NumSubExercice")) || 0;
+    });
+    const [userInput, setUserInput] = useState([]);
+    const [responses, setResponses] = useState({});
+    const [completed, setCompleted] = useState(false);
+    const [message, setMessage] = useState('');
+    const [shuffledFragments, setShuffledFragments] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+    const currentExercice = exercices[currentExerciceIndex];
+    const sousExercices = currentExercice.sousExercices;
+    const currentSubExercise = sousExercices[currentSubExerciseIndex] || null;
 
-    if (commandCount < currentExercice.maxCommands) {
-      const expectedCommand = currentExercice.commandes[commandCount];
+    useEffect(() => {
+        localStorage.setItem('NumExercice', currentExerciceIndex);
+        localStorage.setItem('NumSubExercice', currentSubExerciseIndex);
+    }, [currentExerciceIndex, currentSubExerciseIndex]);
 
-      // Vérifiez si la commande entrée est correcte
-      if (input.trim() === expectedCommand) {
-        // Ajouter une entrée de log
-        setLog((prevLog) => [
-          ...prevLog,
-          { command: input, output: 'Commande exécutée avec succès.' },
-        ]);
-        setSuccessMessage(`Commande réussie: ${input}`);
-        setErrorMessage('');
-
-        // Gérer les différentes commandes
-        if (input.startsWith('git init')) {
-          setProjectCreated(true);
-        } else if (input.startsWith('git add .')) {
-          setFilesAdded(true);
-        } else if (input.startsWith('git commit')) {
-          const commitMessage = input.split('"')[1]; // Obtenir le message de commit
-          setCommitMessage(commitMessage);
-          const commitHash = Math.random().toString(36).substring(2, 15);
-          setGitLog((prevGitLog) => [
-            ...prevGitLog,
-            `commit ${commitHash}\nAuthor: User <user@example.com>\nDate: ${new Date().toLocaleString()}\n\n    ${commitMessage}`,
-          ]);
+    useEffect(() => {
+        let interval = null;
+        if (isActive) {
+            interval = setInterval(() => {
+                setSeconds(prevSeconds => prevSeconds + 1);
+            }, 1000);
+        } else if (!isActive && seconds !== 0) {
+            clearInterval(interval);
         }
+        return () => clearInterval(interval);
+    }, [isActive, seconds]);
 
-        setCommandCount(commandCount + 1);
-        setInput('');
+    const startTimer = () => setIsActive(true);
+    const stopTimer = () => setIsActive(false);
 
-        // Vérifiez si l'exercice est terminé
-        if (commandCount + 1 === currentExercice.maxCommands) {
-          setModalOpen(true); // Ouvrir la modale
+    useEffect(() => {
+        if (currentSubExercise && currentSubExercise.type === "construction" && currentSubExercise.fragments) {
+            const allFragments = [...currentSubExercise.fragments, ...currentSubExercise.incorrectFragments];
+            setShuffledFragments(shuffleArray(allFragments));
+        } else {
+            setShuffledFragments([]);
         }
-      } else {
-        setLog((prevLog) => [
-          ...prevLog,
-          { command: input, output: 'Commande incorrecte, essayez encore.' },
-        ]);
-        setErrorMessage(`Échec: Commande '${input}' est incorrecte.`);
-        setInput('');
-      }
-    } else {
-      alert('Nombre maximum de commandes atteint.');
-    }
-  };
+    }, [currentSubExercise]);
 
-  // Calcul du pourcentage de réussite
-  const successRate = Math.floor((commandCount / currentExercice.maxCommands) * 100);
+    const shuffleArray = (array) => {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    };
 
-  if (!currentExercice) {
-    return <h2>Chargement de l'exercice...</h2>;
-  }
+    const handleDrop = (e) => {
+        e.preventDefault();
+        const fragment = e.dataTransfer.getData("text/plain");
+        if (!userInput.includes(fragment)) {
+            setUserInput([...userInput, fragment]);
+        }
+        setShuffledFragments(shuffledFragments.filter(frag => frag !== fragment));
+    };
 
-  return (
-    <div className="exercices-pratiques">
-      <h2>Exercice Pratique: {currentExercice.title}</h2>
-      <p>{currentExercice.enonce}</p>
-      <div className="container">
-        <div className="simulation">
-          <h3>Simulation des étapes</h3>
-          <div className="step">
-            <p><strong>Création du projet:</strong> {projectCreated ? '✔️ Projet créé' : '❌ Projet non créé'}</p>
-          </div>
-          <div className="step">
-            <p><strong>Ajout de fichiers:</strong> {filesAdded ? '✔️ Fichiers ajoutés' : '❌ Aucun fichier ajouté'}</p>
-          </div>
-          <div className="step">
-            <p><strong>Message de commit:</strong> {commitMessage || '❌ Aucun commit effectué'}</p>
-          </div>
-          <h4>Log Git:</h4>
-          <pre className="git-log">{gitLog.join('\n\n')}</pre>
-        </div>
+    const handleDragStart = (e, fragment) => {
+        e.dataTransfer.setData("text/plain", fragment);
+    };
 
-        <div className="terminal">
-          <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Entrez une commande Git"
-              autoFocus
+    const handleDragOver = (e) => {
+        e.preventDefault();
+    };
+
+    const handleRemoveFragment = (fragment) => {
+        setUserInput(userInput.filter(item => item !== fragment));
+        setShuffledFragments([...shuffledFragments, fragment]);
+    };
+
+    const handleDuplicateFragment = (fragment) => {
+        if (!userInput.includes(fragment)) {
+            setUserInput([...userInput, fragment]);
+        }
+    };
+
+    const calculateXp = () => {
+        const baseXp = 10;
+        const timePenalty = Math.max(0, seconds - 3) * 2;
+        const attemptPenalty = (tentative - 1) * 2;
+        return Math.max(0, baseXp - timePenalty - attemptPenalty);
+    };
+
+    const checkAnswer = () => {
+        if (!SubExerciceFinish) {
+            setTentative(tentative + 1);
+            // Enregistrer les tentatives pour le sous-exercice actuel
+            const newTentatives = [...tentativesSubExercices];
+            newTentatives[currentSubExerciseIndex] = (newTentatives[currentSubExerciseIndex] || 0) + 1;
+            setTentativesSubExercices(newTentatives);
+        }    
+        if (currentSubExercise.type === "construction") {
+            const userCommand = userInput.join(" ");
+            const isCorrect = currentSubExercise.solution.some(solution =>
+                solution === userCommand.trim()
+            );
+
+            if (isCorrect) {
+                setSubExerciceFinish(true);
+                setMessage('Bien joué! Vous avez réussi ce sous-exercice.');
+                setCompleted(true);
+                setXp(prevXp => prevXp + calculateXp());
+            } else {
+                setMessage('Désolé, ce n\'est pas la bonne réponse. Essayez encore.');
+            }
+        } else if (currentSubExercise.type === "qcm" || currentSubExercise.type === "analyse" || currentSubExercise.type === "scenario") {
+            const correctAnswer = currentSubExercise.answer;
+            const userResponse = responses[currentSubExerciseIndex];
+            if (userResponse === correctAnswer) {
+                setSubExerciceFinish(true);
+                setMessage('Bien joué! Vous avez réussi ce sous-exercice.');
+                setCompleted(true);
+                setXp(prevXp => prevXp + calculateXp());
+            } else {
+                setMessage('Désolé, ce n\'est pas la bonne réponse. Essayez encore.');
+            }
+        }
+        if (currentSubExerciseIndex === sousExercices.length - 1){
+            stopTimer();
+        }
+    };
+
+    const resetExercise = () => {
+        setUserInput([]);
+        setResponses({});
+        setCompleted(false);
+        setMessage('');
+        if (currentSubExercise.type !== "construction") {
+            setShuffledFragments([]);
+        }
+    };
+
+    const nextSubExercise = () => {
+        if (currentSubExerciseIndex < sousExercices.length - 1) {
+            resetExercise();
+            setSubExerciceFinish(false);
+            setSeconds(0); // On ne reset plus le chronomètre ici
+            setCurrentSubExerciseIndex(currentSubExerciseIndex + 1);
+        }
+    };
+
+    const nextExercise = () => {
+        if (currentExerciceIndex < exercices.length - 1) {
+            setTentative(0);
+            setTentativesSubExercices([]); // Reset des tentatives pour chaque exercice
+            setCurrentExerciceIndex(currentExerciceIndex + 1);
+            setCurrentSubExerciseIndex(0);
+            resetExercise();
+            startTimer(); // Démarrer le chronomètre au début d'un nouvel exercice
+        } else {
+            alert("Vous avez terminé tous les exercices !");
+        }
+    };
+
+    const stat = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleQcmSelect = (optionIndex) => {
+        setResponses({ ...responses, [currentSubExerciseIndex]: optionIndex });
+    };
+
+    // Calcul du pourcentage basé sur le nombre de tentatives pour chaque sous-exercice
+    const calculatePercentage = () => {
+        if (tentativesSubExercices.length === 0) return 0;
+
+        let totalScore = 0;
+        for (let i = 0; i < tentativesSubExercices.length; i++) {
+            const attempts = tentativesSubExercices[i] || 1;
+            totalScore += (1 / attempts) * 20; // Chaque sous-exercice vaut 20%
+        }
+        return Math.round(totalScore);
+    };
+
+    return (
+        <div className="exercice-pratique">
+            <h1>Exercices Pratiques sur Git</h1>
+            <h2>{currentExercice.title}</h2>
+            {currentSubExerciseIndex < sousExercices.length ? (
+                <>
+                    <h3 dangerouslySetInnerHTML={{ __html: 
+                        currentSubExercise.type === "construction" 
+                            ? currentSubExercise.enonce 
+                            : currentSubExercise.type === "analyse" || currentSubExercise.type === "scenario"
+                                ? currentSubExercise.enonce 
+                                : currentSubExercise.question}} />
+                    {currentSubExercise.type === "construction" && (
+                        <>
+                            <div className="fragments-container">
+                                {shuffledFragments.map((fragment, index) => (
+                                    <span
+                                        key={index}
+                                        className="fragment"
+                                        draggable
+                                        onDragStart={(e) => handleDragStart(e, fragment)}
+                                        onClick={() => handleDuplicateFragment(fragment)}
+                                    >
+                                        {fragment}
+                                    </span>
+                                ))}
+                            </div>
+                            <div
+                                className="drop-zone"
+                                onDrop={handleDrop}
+                                onDragOver={handleDragOver}
+                            >
+                                {userInput.length > 0 ? (
+                                    userInput.map((fragment, index) => (
+                                        <span
+                                            key={index}
+                                            className="user-input-fragment"
+                                            draggable
+                                            onDragStart={(e) => handleDragStart(e, fragment)}
+                                            onClick={() => handleDuplicateFragment(fragment)}
+                                            onDragEnd={() => handleRemoveFragment(fragment)}
+                                        >
+                                            {fragment}
+                                        </span>
+                                    ))
+                                ) : (
+                                    "Glissez les fragments ici"
+                                )}
+                            </div>
+                            <button onClick={checkAnswer}>Vérifier</button>
+                        </>
+                    )}
+                    {(currentSubExercise.type === "qcm" || currentSubExercise.type === "analyse" || currentSubExercise.type === "scenario") && (
+                        <div className="questions">
+                            {currentSubExercise.options.map((option, index) => (
+                                <div key={index} className="question">
+                                    <label>
+                                        <input
+                                            type="radio"
+                                            name={`question-${currentExerciceIndex}-${currentSubExerciseIndex}`}
+                                            checked={responses[currentSubExerciseIndex] === index}
+                                            onChange={() => handleQcmSelect(index)}
+                                        />
+                                        {option}
+                                    </label>
+                                </div>
+                            ))}
+                            <button onClick={checkAnswer}>Vérifier</button>
+                        </div>
+                    )}
+                    {message && <p>{message}</p>}
+                    {completed && (
+                        <div>
+                            {currentSubExerciseIndex < sousExercices.length - 1 ? (
+                                <button onClick={nextSubExercise}>Passer au sous-exercice suivant</button>
+                            ) : (
+                                <div>
+                                    <p>Vous avez terminé cet exercice !</p>
+                                    <button onClick={stat}>Passer à l'exercice suivant</button>
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </>
+            ) : (
+                <div>
+                    <p>Vous avez terminé tous les sous-exercices de cet exercice.</p>
+                    <button onClick={nextExercise}>Passer à l'exercice suivant</button>
+                </div>
+            )}
+            <Modal
+                isOpen={isModalOpen}
+                onClose={() => {
+                    setIsModalOpen(false);
+                    nextExercise();
+                }}
+                pourcentage={calculatePercentage()} // Calculer le pourcentage correct
+                time={seconds}
+                experience={xp}
             />
-            <button type="submit">Exécuter</button>
-          </form>
-          <div className="log">
-            {log.map((entry, index) => (
-              <div key={index}>
-                <div className="command">> {entry.command}</div>
-                <div className="output">{entry.output}</div>
-              </div>
-            ))}
-          </div>
-          <div className="command-count">
-            Commandes exécutées: {commandCount}/{currentExercice.maxCommands}
-          </div>
-          {successMessage && <div className="success">{successMessage}</div>}
-          {errorMessage && <div className="error">{errorMessage}</div>}
         </div>
-      </div>
-
-      {/* Modale pour afficher le résultat de l'exercice */}
-      <Modal 
-        isOpen={modalOpen} 
-        onClose={() => setModalOpen(false)} 
-        successRate={successRate} 
-        timeTaken={timeTaken} 
-      />
-    </div>
-  );
+    );
 };
 
-export default ExercicesPratiques;
+export default ExercicePratique;

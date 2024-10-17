@@ -1,0 +1,88 @@
+.user-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    color: var(--text-color);
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: var(--background-color);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+.user-section, .user-titles-section, .user-bio-section {
+    background-color: var(--primary-color);
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.user-titles-section {
+    margin-top: 20px;
+}
+
+h1, h2 {
+    color: var(--title-color);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 8px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    color: var(--text-color);
+    margin: 8px 0;
+    background-color: var(--input-background-color);
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+}
+
+p {
+    margin: 5px 0;
+    color: var(--text-color);
+}
+
+button {
+    background-color: var(--secondary-color);
+    color: var(--button-text-color);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--button-hover-color);
+}
+
+.error-message {
+    color: var(--error-color);
+    background-color: var(--primary-color);
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    background-color: var(--input-background-color);
+    color: var(--text-color);
+    resize: vertical;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: var(--focus-border-color);
+}

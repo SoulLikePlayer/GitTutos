@@ -1,0 +1,53 @@
+/* ModalSearch.css */
+.modal-search-overlay {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  right: 0;
+  background-color: rgba(13, 17, 23, 0.8);
+  z-index: 999;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.modal-search-content {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  width: 1000px;
+  padding: 20px;
+  border-radius: 5px;
+  margin-top: 20px;
+  border: 1px solid var(--border-color);
+  position: relative;
+}
+
+.modal-search-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  background-color: var(--input-background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  color: var(--text-color);
+}
+
+.search-results {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+.search-results li {
+  padding: 10px 0;
+}
+
+.search-results li a {
+  text-decoration: none;
+  color: var(--link-color);
+}
+
+.search-results li a:hover {
+  color: var(--highlight-color);
+}

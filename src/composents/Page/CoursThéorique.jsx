@@ -1,20 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import coursTheorique from '../data/CoursThéorique'; // Assurez-vous que le chemin est correct
 import '../../style/Page/CoursThéorique.css'; // Ajoutez votre style pour ce composant
 
 const CoursTheorique = () => {
-  const { chapitreNumero } = useParams();
+  const { chapitreNumero: urlChapitreNumero } = useParams(); 
+  const [chapitreNumero, setChapitreNumero] = useState(() => {
+    return urlChapitreNumero || localStorage.getItem("NumChapitre") || 'Chapitre1';
+  });
 
-  // Trouver le chapitre correspondant
+  useEffect(() => {
+    localStorage.setItem('NumChapitre', chapitreNumero);
+  }, [chapitreNumero]);
+
   const chapitreIndex = coursTheorique.chapitres.findIndex(chap => chap.chapitre === chapitreNumero);
-  
-  // Si le chapitre n'est pas trouvé, afficher un message d'erreur
+
   if (chapitreIndex === -1) {
     return <h2>Chapitre non trouvé</h2>;
   }
 
   const chapitre = coursTheorique.chapitres[chapitreIndex];
+
   const previousChapitre = chapitreIndex > 0 ? coursTheorique.chapitres[chapitreIndex - 1] : null;
   const nextChapitre = chapitreIndex < coursTheorique.chapitres.length - 1 ? coursTheorique.chapitres[chapitreIndex + 1] : null;
 
@@ -32,19 +38,25 @@ const CoursTheorique = () => {
           </section>
         ))}
       </main>
-      
-      {/* Navigation entre les chapitres */}
+
       <footer className="cours-navigation">
-        {previousChapitre && (
-          <Link to={`/cours-theorique/${previousChapitre.chapitre}`} className="nav-button">
-            Chapitre Précédent
-          </Link>
-        )}
-        {nextChapitre && (
-          <Link to={`/cours-theorique/${nextChapitre.chapitre}`} className="nav-button">
-            Chapitre Suivant
-          </Link>
-        )}
+        <Link
+          to={previousChapitre ? `/cours-theorique/${previousChapitre.chapitre}` : '#'}
+          className={`nav-button prev-chap ${!previousChapitre ? 'disabled' : ''}`}
+          onClick={() => previousChapitre && setChapitreNumero(previousChapitre.chapitre)}
+          disabled={!previousChapitre} 
+        >
+          Chapitre Précédent
+        </Link>
+
+        <Link
+          to={nextChapitre ? `/cours-theorique/${nextChapitre.chapitre}` : '#'}
+          className={`nav-button next-chap ${!nextChapitre ? 'disabled' : ''}`}
+          onClick={() => nextChapitre && setChapitreNumero(nextChapitre.chapitre)}
+          disabled={!nextChapitre}
+        >
+          Chapitre Suivant
+        </Link>
       </footer>
     </div>
   );
