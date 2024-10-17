@@ -15,6 +15,7 @@ import OtherProfil from './composents/Page/OtherProfil';
 
 const App = () => {
   return (
+    // Ajout du basename correspondant au nom de ton dépôt GitHub
     <Router basename="/GitTutos">
       <Header />
       <Routes>

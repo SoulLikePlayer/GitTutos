@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom'; // Ajout de useLocation pour récupérer l'état de navigation
 import '../../style/Page/profil.css';
 import { supabase } from '../autres/supabaseUtilisateur';
 
 const OtherProfil = () => {
     const { userId } = useParams();
+    const location = useLocation();
     const [error, setError] = useState(null);
-    const [profileData, setProfileData] = useState(null);
+    const [profileData, setProfileData] = useState(location.state?.userData || null); // Utiliser les données passées ou null
     const [userTitle, setUserTitle] = useState(null);
 
     const fetchProfileData = async () => {
-    try {
-                // Récupération des données du profil utilisateur
+        try {
+            if (!profileData) {
                 const { data: userData, error: userError } = await supabase
                     .from('users')
                     .select('*')
@@ -20,30 +21,31 @@ const OtherProfil = () => {
 
                 if (userError) throw userError;
                 setProfileData(userData);
-
-                // Récupération d'un seul titre utilisateur
-                const { data: titleData, error: titleError } = await supabase
-                    .from('usertitles')
-                    .select(`
-                        titre_id,
-                        titre(titre_nom)
-                    `)
-                    .eq('user_id', userId)
-                    .limit(1)  
-                    .single();
-
-                if (titleError) throw titleError;
-                setUserTitle(titleData);  // Stocke le titre unique
-            } catch (error) {
-                setError(error.message);
             }
+
+            const { data: titleData, error: titleError } = await supabase
+                .from('usertitles')
+                .select(`
+                    titre_id,
+                    titre(titre_nom)
+                `)
+                .eq('user_id', userId)
+                .limit(1)
+                .single();
+
+            if (titleError) throw titleError;
+            setUserTitle(titleData);  // Stocker le titre unique
+        } catch (error) {
+            setError(error.message);
         }
+    };
 
     useEffect(() => {
-        fetchProfileData();
-    }, []);
+        if (!profileData) {
+            fetchProfileData();
+        }
+    }, [profileData]);
 
-    
     if (error) {
         return <p className="error-message">{error}</p>;
     }
@@ -52,7 +54,7 @@ const OtherProfil = () => {
         return <p>Chargement des données...</p>;
     }
 
-    return (     
+    return (
         <div className="user-content">
             <div className="user-section">
                 <h1>Profil : {profileData.username}</h1>
@@ -77,7 +79,7 @@ const OtherProfil = () => {
                 </div>
             </div>
         </div>
-    );      
+    );
 };
 
 export default OtherProfil;

@@ -63,7 +63,7 @@ const Auth = () => {
         setEmail('');
         setPassword('');
 
-        const { data: profileData, error: profileError } = await supabase
+        const { data: profileData } = await supabase
           .from('users')
           .select('id, username, password_hash')
           .eq('username', username) 

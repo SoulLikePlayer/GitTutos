@@ -1,18 +1,19 @@
-// ModalSearch.js
 import React, { useState, useEffect } from "react";
 import { supabase } from "./supabaseUtilisateur";
+import { useNavigate } from 'react-router-dom'; // Ajouté pour la navigation
 import '../../style/autre/ModalSearch.css';
 
 const ModalSearch = ({ isOpen, onClose }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);
+  const navigate = useNavigate(); // Hook de navigation
 
   useEffect(() => {
     if (searchTerm.length > 0) {
       const fetchUsers = async () => {
         let { data, error } = await supabase
           .from("users")
-          .select("id, username")
+          .select("id, username, email, bio, created_at") // Sélection des champs nécessaires
           .ilike("username", `%${searchTerm}%`);
 
         if (!error) {
@@ -33,6 +34,12 @@ const ModalSearch = ({ isOpen, onClose }) => {
     }
   };
 
+  const handleUserClick = (user) => {
+    // Naviguer vers le profil avec les données de l'utilisateur
+    navigate(`/profil-utilisateur/${user.id}`, { state: { userData: user } });
+    onClose();
+  };
+
   return (
     <div className="modal-search-overlay" onClick={handleClickOutside}>
       <div className="modal-search-content">
@@ -47,7 +54,9 @@ const ModalSearch = ({ isOpen, onClose }) => {
           <ul className="search-results">
             {results.map((user) => (
               <li key={user.id}>
-                <a href={`/profil-utilisateur/${user.id}`}>{user.username}</a>
+                <button onClick={() => handleUserClick(user)}>
+                  {user.username}
+                </button>
               </li>
             ))}
           </ul>
