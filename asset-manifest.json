@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/gittutos/static/css/main.83ec8d00.css",
+    "main.js": "/gittutos/static/js/main.09b5816a.js",
+    "static/js/952.e014ac3e.chunk.js": "/gittutos/static/js/952.e014ac3e.chunk.js",
+    "index.html": "/gittutos/index.html",
+    "main.83ec8d00.css.map": "/gittutos/static/css/main.83ec8d00.css.map",
+    "main.09b5816a.js.map": "/gittutos/static/js/main.09b5816a.js.map",
+    "952.e014ac3e.chunk.js.map": "/gittutos/static/js/952.e014ac3e.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.83ec8d00.css",
+    "static/js/main.09b5816a.js"
+  ]
+}
