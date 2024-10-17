@@ -41,7 +41,7 @@ const CoursTheorique = () => {
 
       <footer className="cours-navigation">
         <Link
-          to={previousChapitre ? `/cours-theorique/${previousChapitre.chapitre}` : '#'}
+          to={previousChapitre ? `/GitTutos/cours-theorique/${previousChapitre.chapitre}` : '#'}
           className={`nav-button prev-chap ${!previousChapitre ? 'disabled' : ''}`}
           onClick={() => previousChapitre && setChapitreNumero(previousChapitre.chapitre)}
           disabled={!previousChapitre} 
@@ -50,7 +50,7 @@ const CoursTheorique = () => {
         </Link>
 
         <Link
-          to={nextChapitre ? `/cours-theorique/${nextChapitre.chapitre}` : '#'}
+          to={nextChapitre ? `/GitTutos/cours-theorique/${nextChapitre.chapitre}` : '#'}
           className={`nav-button next-chap ${!nextChapitre ? 'disabled' : ''}`}
           onClick={() => nextChapitre && setChapitreNumero(nextChapitre.chapitre)}
           disabled={!nextChapitre}

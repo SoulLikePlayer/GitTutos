@@ -15,7 +15,7 @@ const PageAccueil = () => {
       <main className="main-content">
         <section className={user ? "feature" : "disable-feature"}>
           <h2 className="feature-title">
-            <Link to={user ? `/cours-theorique/${chapitreNumero}` : ""} className="link">Cours Théoriques</Link>
+            <Link to={user ? `/GitTutos/cours-theorique/${chapitreNumero}` : ""} className="link">Cours Théoriques</Link>
           </h2>
           <p className="feature-description">
             Explorez les bases de Git avec nos cours détaillés et adaptés à tous les niveaux.
@@ -24,7 +24,7 @@ const PageAccueil = () => {
 
         <section className={user ? "feature" : "disable-feature"}>
           <h2 className="feature-title">
-            <Link to={user ? "/exercices-pratiques" : ""} className="link">Exercices Pratiques</Link>
+            <Link to={user ? "/GitTutos/exercices-pratiques" : ""} className="link">Exercices Pratiques</Link>
           </h2>
           <p className="feature-description">
             Entraînez-vous avec des scénarios réalistes pour mettre en pratique vos compétences Git.
@@ -33,7 +33,7 @@ const PageAccueil = () => {
 
         <section className={user ? "feature" : "disable-feature"}>
           <h2 className="feature-title">
-            <Link className='link' to={user ? "/pageCommande/git-init" : ""}>Liste des commandes</Link>
+            <Link className='link' to={user ? "/GitTutos/pageCommande/git-init" : ""}>Liste des commandes</Link>
           </h2>  
           <p className="feature-description">
             Apprenez les différentes commandes git disponnible avec leur utilité et leur options.

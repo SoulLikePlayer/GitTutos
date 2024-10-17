@@ -47,7 +47,7 @@ const ModalSearch = ({ isOpen, onClose }) => {
           <ul className="search-results">
             {results.map((user) => (
               <li key={user.id}>
-                <a href={`/profil-utilisateur/${user.id}`}>{user.username}</a>
+                <a href={`/GitTutos/profil-utilisateur/${user.id}`}>{user.username}</a>
               </li>
             ))}
           </ul>

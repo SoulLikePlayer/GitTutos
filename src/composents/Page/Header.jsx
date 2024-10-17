@@ -15,7 +15,7 @@ const Header = () => {
   return (
     <Navbar bg="dark" variant="dark" expand="lg" className="app-header">
       <Container>
-        <Navbar.Brand as={Link} to="/"> <i class="fa-brands fa-git-alt"></i> GitTutos</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/"> <i class="fa-brands fa-git-alt"></i>GitTutos</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
