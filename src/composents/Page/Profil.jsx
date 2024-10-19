@@ -70,6 +70,14 @@ const Profil = () => {
         window.location.reload();
     };
 
+    const handleDisconnected = () => {
+        try{
+
+        }catch (error){
+            setError(error.message);
+        }
+    }
+
     if (error) {
         return <p className="error-message">{error}</p>;
     }
@@ -117,6 +125,7 @@ const Profil = () => {
             </div>
 
             <button onClick={handleLogout}>Se déconnecter</button>
+            <button onClick={handleDisconnected}>Se désinscrire</button>
         </div>
     );
 };

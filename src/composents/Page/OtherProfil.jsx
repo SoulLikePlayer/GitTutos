@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useLocation } from 'react-router-dom'; // Ajout de useLocation pour récupérer l'état de navigation
+import { useParams, useLocation } from 'react-router-dom';
 import '../../style/Page/profil.css';
 import { supabase } from '../autres/supabaseUtilisateur';
 
@@ -7,34 +7,27 @@ const OtherProfil = () => {
     const { userId } = useParams();
     const location = useLocation();
     const [error, setError] = useState(null);
-    const [profileData, setProfileData] = useState(location.state?.userData || null); // Utiliser les données passées ou null
-    const [userTitle, setUserTitle] = useState(null);
+    const [profileData, setProfileData] = useState(location.state?.userData || null);
+    const [userTitle, setUserTitle] = useState(location.state?.userData?.usertitles?.[0]?.titre?.titre_nom || null);
 
     const fetchProfileData = async () => {
         try {
             if (!profileData) {
                 const { data: userData, error: userError } = await supabase
                     .from('users')
-                    .select('*')
+                    .select(`
+                        *,
+                        usertitles (
+                            titre: titre_id (titre_nom)
+                        )
+                    `)
                     .eq('id', userId)
                     .single();
 
                 if (userError) throw userError;
                 setProfileData(userData);
+                setUserTitle(userData.usertitles[0]?.titre?.titre_nom || null);
             }
-
-            const { data: titleData, error: titleError } = await supabase
-                .from('usertitles')
-                .select(`
-                    titre_id,
-                    titre(titre_nom)
-                `)
-                .eq('user_id', userId)
-                .limit(1)
-                .single();
-
-            if (titleError) throw titleError;
-            setUserTitle(titleData);  // Stocker le titre unique
         } catch (error) {
             setError(error.message);
         }
@@ -59,14 +52,13 @@ const OtherProfil = () => {
             <div className="user-section">
                 <h1>Profil : {profileData.username}</h1>
                 <p>Date de création : {new Date(profileData.created_at).toLocaleDateString()}</p>
-                <p>Email : {profileData.email}</p>
                 <p>Pseudo : {profileData.username}</p>
             </div>
 
             <div className="user-titles-section">
                 <h2>Titre</h2>
                 {userTitle ? (
-                    <p>{userTitle.titre.titre_nom}</p>
+                    <p>{userTitle}</p>
                 ) : (
                     <p>Aucun titre obtenu.</p>
                 )}

@@ -19,7 +19,7 @@ const Header = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <NavDropdown title="Cours" id="basic-nav-dropdown">
+          {user ? <NavDropdown title="Cours" id="basic-nav-dropdown">
               {coursTheorique.chapitres.map((chapitre) => (
                 <NavDropdown.Item
                   key={chapitre.chapitre}
@@ -29,8 +29,8 @@ const Header = () => {
                   {chapitre.chapitre}: {chapitre.titre}
                 </NavDropdown.Item>
               ))}
-            </NavDropdown>
-            <NavDropdown title="Commande" id="basic-nav-dropdown">
+            </NavDropdown> : <></> }
+          {user ? <NavDropdown title="Commande" id="basic-nav-dropdown">
               {ListeCommande.commande.map((commande) => (
                 <NavDropdown.Item
                   key={commande.id}
@@ -40,10 +40,10 @@ const Header = () => {
                   {commande.nom}
                 </NavDropdown.Item>
               ))}
-            </NavDropdown>
+            </NavDropdown> : <></> }
           </Nav>
           <input type="button" value="Rechercher un collaborateur" id="collaboratorSearch"  onClick={() => setIsModalOpen(true)}/>
-          <Button as={Link} to="/exercices-pratiques" id="Exercice">Exercice Pratique</Button>
+          { user ? <Button as={Link} to="/exercices-pratiques" id="Exercice">Exercice Pratique</Button> : <></>}
           <Button as={Link} to={user ? "/profil" : "/auth"} id="Compte" className='ms-2'>
             {user ? user.username : "Se Connecter"}
           </Button>
