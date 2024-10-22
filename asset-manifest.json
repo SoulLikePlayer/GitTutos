@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/GitTutos/static/css/main.83ec8d00.css",
-    "main.js": "/GitTutos/static/js/main.7a5778b9.js",
+    "main.css": "/GitTutos/static/css/main.31644925.css",
+    "main.js": "/GitTutos/static/js/main.2b387104.js",
     "static/js/952.e014ac3e.chunk.js": "/GitTutos/static/js/952.e014ac3e.chunk.js",
     "index.html": "/GitTutos/index.html",
-    "main.83ec8d00.css.map": "/GitTutos/static/css/main.83ec8d00.css.map",
-    "main.7a5778b9.js.map": "/GitTutos/static/js/main.7a5778b9.js.map",
+    "main.31644925.css.map": "/GitTutos/static/css/main.31644925.css.map",
+    "main.2b387104.js.map": "/GitTutos/static/js/main.2b387104.js.map",
     "952.e014ac3e.chunk.js.map": "/GitTutos/static/js/952.e014ac3e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.83ec8d00.css",
-    "static/js/main.7a5778b9.js"
+    "static/css/main.31644925.css",
+    "static/js/main.2b387104.js"
   ]
 }
